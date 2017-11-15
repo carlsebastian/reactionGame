@@ -1,6 +1,7 @@
 from graphics import *
 from random import randint
 from math import sqrt
+from client import *
 
 def insideCircle(circle, click):
     center = circle.getCenter()
@@ -49,7 +50,7 @@ def drawObject(position, form_id, win):
         click = win.getMouse() # pause for click in window
         O.undraw()
 
-    elif form_id == 3:
+    else:
         rand = randint(1, 300)
         leftX = position.getX() - rand
         rightX = position.getX() + rand
@@ -82,11 +83,15 @@ def init():
         height += 20
     return win
 
+def main():
+    tell_server_of_connection()
+    playerBox = 0
+    win = init()
+    obj, coord = recieve_position_and_object_from_server()
+    pt = Point(int(coord[0]), int(coord[1]))
+    print obj
+    print pt
+    drawObject(pt, int(obj), win)
 
-playerBox = 0
-win = init()
-positionx = input("which position x? ")
-positiony = input("Which position y? ")
-form_id = input("what form? ")
-pt = Point(positionx, positiony)
-drawObject(pt, form_id, win)
+if __name__ == "__main__":
+    main()

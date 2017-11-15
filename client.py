@@ -23,18 +23,17 @@ def recieve_position_and_object_from_server():
     data = msg.split(',')
     obj = data[0]
     coord = data[1],data[2]
-    print obj+' - '+str(coord)
     return obj, coord
 
 def send_timestamp():
     udp_socket.sendto("[1,timestamp]", (host,port))
 
 
-def main():
-    tell_server_of_connection()
-    while True:
-        recieve_position_and_object_from_server()
-        send_timestamp()
-    s.close
-if __name__ == "__main__":
-    main()
+#def main():
+#    tell_server_of_connection()
+#    while True:
+#        recieve_position_and_object_from_server()
+#        send_timestamp()
+#    s.close
+#if __name__ == "__main__":
+#    main()

@@ -26,8 +26,8 @@ address = []
 #randomized coordinates for objects
 def randomize_coordinates():
     obj = (randint(0, 10))
-    x = (randint(0, 100)) #random integer
-    y = (randint(0, 100))
+    x = (randint(100, 1000)) #random integer
+    y = (randint(100, 1000))
     return str(obj)+','+str(x)+','+str(y)
 
 #sends position to players from array address
