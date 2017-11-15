@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from graphics import *
 from random import randint
 from math import sqrt
@@ -92,18 +94,19 @@ def init(nrplayers, points):
     return win
 
 def main():
-    tell_server_of_connection()
-    nrplayers = 10
+    nrplayers = 2
     points = 0
+    tell_server_of_connection()
     win = init(nrplayers, points)
-    obj, coord = recieve_position_and_object_from_server()
-    pt = Point(int(coord[0]), int(coord[1]))
-    #obj = 1 För att testa utan server
-    #pt = Point(500,500) För att testa utan server
     i = 0
     while(i < 5):
+        obj, coord = recieve_position_and_object_from_server()
+        pt = Point(int(coord[0]), int(coord[1]))
+        #obj = 1 För att testa utan server
+        #pt = Point(500,500) För att testa utan server
         drawObject(pt, int(obj), win)
-        time.sleep(2)
+        send_timestamp()
+        #time.sleep(4)
         i += 1
 
 if __name__ == "__main__":

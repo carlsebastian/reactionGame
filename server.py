@@ -3,7 +3,7 @@
 import socket
 import sys  #for exit
 from random import randint
-
+import datetime
 #Get ip address of interface wlp2s0
 #import netifaces as ni
 #ni.ifaddresses('wlp2s0')
@@ -25,9 +25,9 @@ address = []
 
 #randomized coordinates for objects
 def randomize_coordinates():
-    obj = (randint(0, 10))
-    x = (randint(100, 1000)) #random integer
-    y = (randint(100, 1000))
+    obj = (randint(1, 1))
+    x = (randint(100, 500)) #random integer
+    y = (randint(100, 500))
     return str(obj)+','+str(x)+','+str(y)
 
 #sends position to players from array address
@@ -59,6 +59,7 @@ def recieve_timestamp():
     while i<2: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         message.append(m)
+        print m
         i = i+1
     return True
 
