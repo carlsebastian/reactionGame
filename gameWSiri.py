@@ -2,6 +2,7 @@ from graphics import *
 from random import randint
 from math import sqrt
 from client import *
+import time
 
 def insideCircle(circle, click):
     center = circle.getCenter()
@@ -33,14 +34,22 @@ def drawObject(position, form_id, win):
         R.setFill(color[k])
         R.draw(win)
         click = win.getMouse() # pause for click in window
+
         R.undraw()
 
     elif form_id == 1:
-        C = Circle(position, randint(1,100))
+        C = Circle(position, 100)
         C.setFill(color[k])
         C.draw(win)
-        click = win.getMouse() # pause for click in window
+        boo = False
+        while(not(boo)):
+            click = win.getMouse() # pause for click in window
+            if(insideCircle(C,click)):
+                boo = True
+            else:
+                print(insideCircle(C,click))
         C.undraw()
+
     elif form_id == 2:
         left_pt = calc_left_point(position)
         right_pt = calc_right_point(position)
@@ -67,31 +76,35 @@ def drawObject(position, form_id, win):
         T.undraw()
 
 
-def init():
-    nrplayers = input('How many players? ')
+def init(nrplayers, points):
     win = GraphWin("Game", 1000, 1000)
-    heightbox = 20 * nrplayers
     global playerBox
+    heightbox = 20 * nrplayers
     playerBox = Rectangle(Point(0,0), Point(300,heightbox))
     playerBox.setFill('white')
     i = 0
     height = 10
     playerBox.draw(win)
     while i < nrplayers:
-        Text(Point(100,height), "Player " + str(i+1) + " have: lala points").draw(win)
+        Text(Point(100,height), "Player " + str(i+1) + " have: " + str(points) + " points").draw(win)
         i += 1
         height += 20
     return win
 
 def main():
     tell_server_of_connection()
-    playerBox = 0
-    win = init()
+    nrplayers = 10
+    points = 0
+    win = init(nrplayers, points)
     obj, coord = recieve_position_and_object_from_server()
     pt = Point(int(coord[0]), int(coord[1]))
-    print obj
-    print pt
-    drawObject(pt, int(obj), win)
+    #obj = 1 För att testa utan server
+    #pt = Point(500,500) För att testa utan server
+    i = 0
+    while(i < 5):
+        drawObject(pt, int(obj), win)
+        time.sleep(2)
+        i += 1
 
 if __name__ == "__main__":
     main()
