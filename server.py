@@ -19,6 +19,7 @@ except socket.error, msg:
 host = socket.gethostname() #ip
 port = 1234
 udp_socket.bind((host, port))
+user = []
 message = []
 address = []
 #-----------------------------
@@ -49,6 +50,7 @@ def await_connections():
     while i<2: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         address.append(a)
+        user.append(m)
         print 'connection from', address[i]
         i = i+1
     return True
@@ -56,10 +58,13 @@ def await_connections():
 #Receive timestamp from clients and append to message array
 def recieve_timestamp():
     i = 0
+    print 'omgång'
     while i<2: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
+        ui = address.index(a)
+        userid = user[ui]
         message.append(m)
-        print m
+        print userid,m
         i = i+1
     return True
 
