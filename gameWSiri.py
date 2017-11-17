@@ -12,6 +12,34 @@ def insideCircle(circle, click):
                     ((click.y - center.y) ** 2))
     return distance < circle.radius
 
+def insideRectangle(left_pt, right_pt, click):
+    leftX = left_pt.getX()
+    leftY = left_pt.getY()
+    rightX = right_pt.getX()
+    rightY = right_pt.getY()
+
+    if (leftX <= click.x <= rightX and leftY <= click.y <= rightY):
+        return True
+    else:
+        return False
+
+def areaOfTraingle(lx,ly,rx,ry,tx,ty):
+    return abs(((1.0/2.0)*(lx*(ry-ty) + rx*(ty-ly) + tx*(ly-ry))))
+
+def insideTriangle(left_pt, right_pt, top_pt, click):
+    leftX = left_pt.getX()
+    leftY = left_pt.getY()
+    rightX = right_pt.getX()
+    rightY = right_pt.getY()
+    topX = top_pt.getX()
+    topY = top_pt.getY()
+
+    A  = areaOfTraingle(leftX, leftY, rightX, rightY, topX, topY)
+    A1 = areaOfTraingle(click.x, click.y, rightX, rightY, topX, topY)
+    A2 = areaOfTraingle(leftX, leftY, click.x, click.y, topX, topY)
+    A3 = areaOfTraingle(leftX, leftY, rightX, rightY, click.x, click.y)
+    return (A == (A1 + A2 + A3))
+
 def calc_left_point(position):
     randX = randint(1,500)
     randY = randint(1,500)
@@ -29,21 +57,25 @@ def calc_right_point(position):
 def drawObject(position, form_id, win):
     color = ["green", "red", "grey", "white", "black", "orange", "purple"]
     k = randint(1,len(color)-1)
+    boo = False
     if form_id == 0:
         left_pt = calc_left_point(position)
         right_pt = calc_right_point(position)
         R = Rectangle(left_pt, right_pt)
         R.setFill(color[k])
         R.draw(win)
-        click = win.getMouse() # pause for click in window
-
+        while(not(boo)):
+            click = win.getMouse() # pause for click in window
+            if(insideRectangle(left_pt, right_pt,click)):
+                boo = True
+            else:
+                print(insideRectangle(left_pt, right_pt, click))
         R.undraw()
 
     elif form_id == 1:
         C = Circle(position, 100)
         C.setFill(color[k])
         C.draw(win)
-        boo = False
         while(not(boo)):
             click = win.getMouse() # pause for click in window
             if(insideCircle(C,click)):
@@ -52,29 +84,25 @@ def drawObject(position, form_id, win):
                 print(insideCircle(C,click))
         C.undraw()
 
-    elif form_id == 2:
-        left_pt = calc_left_point(position)
-        right_pt = calc_right_point(position)
-        O = Oval(left_pt, right_pt)
-        O.setFill(color[k])
-        O.draw(win)
-        click = win.getMouse() # pause for click in window
-        O.undraw()
-
     else:
         rand = randint(1, 300)
         leftX = position.getX() - rand
         rightX = position.getX() + rand
         topY = position.getY() - rand
 
-        leftPt = Point(leftX, position.getY())
-        rightPt = Point(rightX, position.getY())
-        topPt = Point(position.getX(),topY)
+        left_pt = Point(leftX, position.getY())
+        right_pt = Point(rightX, position.getY())
+        top_pt = Point(position.getX(),topY)
 
-        T = Polygon(topPt, rightPt, leftPt)
+        T = Polygon(top_pt, right_pt, left_pt)
         T.setFill(color[k])
         T.draw(win)
-        click = win.getMouse()
+        while(not(boo)):
+            click = win.getMouse() # pause for click in window
+            if(insideTriangle(left_pt, right_pt, top_pt, click)):
+                boo = True
+            else:
+                print(insideTriangle(left_pt, right_pt, top_pt, click))
         T.undraw()
 
 
@@ -102,11 +130,11 @@ def main():
     while(i < 5):
         obj, coord = recieve_position_and_object_from_server()
         pt = Point(int(coord[0]), int(coord[1]))
-        #obj = 1 För att testa utan server
-        #pt = Point(500,500) För att testa utan server
+        #obj = randint(0,2) #För att testa utan server
+        #pt = Point(500,500) #För att testa utan server
         drawObject(pt, int(obj), win)
         send_timestamp()
-        #time.sleep(4)
+        #time.sleep(1)
         i += 1
 
 if __name__ == "__main__":
