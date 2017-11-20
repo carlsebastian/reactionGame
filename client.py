@@ -8,7 +8,7 @@ import datetime
 try:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 except socket.error as msg:
-    print 'Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1]
+    print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
 host = socket.gethostname() # IP of the server change if not localhost!!
 port = 1234

@@ -14,7 +14,7 @@ import datetime
 try:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP
 except socket.error as msg:
-    print 'Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1]
+    print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
 host = socket.gethostname() #ip
 port = 1234
@@ -39,7 +39,7 @@ def send_position_to_players(position, address):
         try:
             udp_socket.sendto(position,address[j])
         except socket.error as msg:
-            print 'Misslyckades med sändning av position. Felkod: '+str(msg[0])+', Felmeddelande: '+msg[1]
+            print ('Misslyckades med sändning av position. Felkod: '+str(msg[0])+', Felmeddelande: '+msg[1])
             sys.exit();
         j = j+1
     return True
@@ -51,20 +51,20 @@ def await_connections():
         m, a = udp_socket.recvfrom(1024)
         address.append(a)
         user.append(m)
-        print 'connection from', address[i]
+        print ('connection from', address[i])
         i = i+1
     return True
 
 #Receive timestamp from clients and append to message array
 def recieve_timestamp():
     i = 0
-    print 'omgång'
+    print ('omgång')
     while i<2: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         ui = address.index(a)
         userid = user[ui]
         message.append(m)
-        print userid,m
+        print (userid,m)
         i = i+1
     return True
 
@@ -78,7 +78,7 @@ def main():
     sent_position = False
     got_timestamps = False
 
-    print "listening on port, and address" , host, port
+    print ("listening on port, and address" , host, port)
     while True:
         random_position_and_object = randomize_coordinates()
         if(not connection_limit):
