@@ -13,7 +13,7 @@ import datetime
 #Establishes a UDP-socket
 try:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP
-except socket.error, msg:
+except socket.error as msg:
     print 'Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1]
     sys.exit();
 host = socket.gethostname() #ip
@@ -38,7 +38,7 @@ def send_position_to_players(position, address):
     while j<len(address):
         try:
             udp_socket.sendto(position,address[j])
-        except socket.error, msg:
+        except socket.error as msg:
             print 'Misslyckades med sändning av position. Felkod: '+str(msg[0])+', Felmeddelande: '+msg[1]
             sys.exit();
         j = j+1
