@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pickle
 import socket
 import sys  #for exit
 from random import randint
@@ -16,7 +17,7 @@ try:
 except socket.error as msg:
     print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
-host = socket.gethostname() #ip
+host = '130.243.197.82' #socket.gethostname() #ip
 port = 1234
 udp_socket.bind((host, port))
 user = []
@@ -68,6 +69,16 @@ def recieve_timestamp():
         i = i+1
     return True
 
+
+#logging
+def log_round():
+    log_result = {} # Logga variables som håller round-info
+    pickle.dump(log_result, open( "log.p", "ab" ) )
+
+#Erase log.p
+def log_erase():
+    empty = {} # Tömmer filen, vill vi göra efter varje avslutat spel, samt kanske i början.
+    pickle.dump( empty, open( "log.p", "wb" ) )
 
 #Main routine, GameHandler
 def main():
