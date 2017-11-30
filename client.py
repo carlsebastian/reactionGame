@@ -18,8 +18,8 @@ recv_time = ()
 post_time = ()
 
 # Just a hacky way for the server to know who has connected
-def tell_server_of_connection():
-    udp_socket.sendto("unneccessary", (host,port))
+def tell_server_of_connection(playername):
+    udp_socket.sendto(playername, (host,port))
 
 # Recieve the random generated position from the server
 def recieve_position_and_object_from_server():
@@ -38,12 +38,11 @@ def send_timestamp():
     diff_time = post_time - recv_time
     udp_socket.sendto('[1,'+str(diff_time)+']', (host,port))
 
-
-# def main():
-#    tell_server_of_connection()
-#    while True:
-#        recieve_position_and_object_from_server()
-#        send_timestamp()
-#    s.close
-# if __name__ == "__main__":
-#    main()
+def main():
+    tell_server_of_connection("sebbe")
+    while True:
+        recieve_position_and_object_from_server()
+        send_timestamp()
+    s.close
+if __name__ == "__main__":
+    main()
