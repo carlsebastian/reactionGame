@@ -6,6 +6,11 @@ from math import sqrt
 from client import *
 import time
 
+nrplayers = 2
+points = 0
+player_name = ""
+server = ["000.000.000.000","000.000.000.001"]
+
 def insideCircle(circle, click):
     center = circle.getCenter()
     distance = sqrt(((click.x - center.x) ** 2) +
@@ -115,16 +120,48 @@ def init(nrplayers, points):
     i = 0
     height = 10
     playerBox.draw(win)
+    #players = get_player_names() En funktion som skickar alla namn på spelarna TODO
+    players= []
+    players.append(player_name)
+    players.append("dummy")
     while i < nrplayers:
-        Text(Point(100,height), "Player " + str(i+1) + " have: " + str(points) + " points").draw(win)
+        Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
         i += 1
         height += 20
     return win
 
+def make_intro_win():
+    global player_name, server
+    win = GraphWin("start", 1000, 1000)
+
+    Text(Point((win.getWidth())/6,win.getHeight()/10), "Player name: ").draw(win)
+    name_entry = Entry(Point(win.getWidth()/2,win.getHeight()/10), 50)
+    Text(Point((win.getWidth())/6,2*win.getHeight()/10), "The available server: ").draw(win)
+    Text(Point((win.getWidth())/6,9*win.getHeight()/10), "Which server? (index) ").draw(win)
+    server_entry = Entry(Point(win.getWidth()/2,9*win.getHeight()/10), 50)
+    i = 3
+    for x in server:
+        Text(Point((win.getWidth())/2,i*win.getHeight()/10),str(i-2) + '# ' + x).draw(win)
+        i += 1
+    name_entry.draw(win)
+    server_entry.draw(win)
+    win.getMouse()
+    player_name = name_entry.getText()
+    server_index = server_entry.getText()
+    if(int(server_index)-1 > len(server)):
+        raise ValueError('För stort större index än det finns servrar')
+    elif(int(server_index)-1 < 0):
+        raise ValueError('För litet mindre än 0')
+    else:
+        server = server[int(server_index)-1]
+        win.close()
+        return
+
 def main():
-    nrplayers = 2
-    points = 0
     tell_server_of_connection()
+    global nrplayers, points, player_name, server
+    #available_servers_to_connect() #En funktion som anger vilka servrar man kan välja mellan och sparar den i server variabeln, kan edera vara här eller i func make_intro_win TODO
+    make_intro_win()
     win = init(nrplayers, points)
     i = 0
     while(i < 5):
@@ -134,7 +171,7 @@ def main():
         #pt = Point(500,500) #För att testa utan server
         drawObject(pt, int(obj), win)
         send_timestamp()
-        #time.sleep(1)
+        #time.sleep(1)#För att testa utan server
         i += 1
 
 if __name__ == "__main__":
