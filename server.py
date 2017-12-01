@@ -17,7 +17,7 @@ try:
 except socket.error as msg:
     print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
-host = '130.243.197.82'#socket.gethostname() #ip
+host = socket.gethostname() #ip
 port = 1234
 udp_socket.bind((host, port))
 user = []

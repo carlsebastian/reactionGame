@@ -124,7 +124,7 @@ def init(nrplayers, points):
 def main():
     nrplayers = 2
     points = 0
-    tell_server_of_connection()
+    tell_server_of_connection("Sebbe")
     win = init(nrplayers, points)
     i = 0
     while(i < 5):
