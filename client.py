@@ -16,10 +16,11 @@ port = 1234
 #Global variables
 recv_time = ()
 post_time = ()
-
+host = ''
 # Just a hacky way for the server to know who has connected
 def tell_server_of_connection(playername, server):
     udp_socket.sendto(playername, (server,port))
+    host = server
 
 # Recieve the random generated position from the server
 def recieve_position_and_object_from_server():
@@ -56,6 +57,6 @@ def send_timestamp():
 #       users, scores = score_user_receive()
         # recieve_position_and_object_from_server()
 #        send_timestamp()
-    s.close
-if __name__ == "__main__":
-    main()
+#    s.close
+#if __name__ == "__main__":
+#    main()
