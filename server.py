@@ -88,7 +88,6 @@ def score_send_clients():
     if userid_winner != '':
         winner_i = user.index(userid_winner)
         score_game[winner_i] = score_game[winner_i]+1
-        print score_game
     user_score = ''
     i = 0
     for i in range(len(score_game)):
