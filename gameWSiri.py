@@ -121,7 +121,7 @@ def init(nrplayers, points):
     height = 10
     playerBox.draw(win)
 
-    players, score = score_user_recieve()
+    players, score = score_user_receive()
 
     while i < nrplayers:
         Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
