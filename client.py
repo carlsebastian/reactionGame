@@ -10,7 +10,7 @@ try:
 except socket.error as msg:
     print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
-host = socket.gethostname() # IP of the server change if not localhost!!
+
 port = 1234
 #-----------------------------
 #Global variables
@@ -18,8 +18,8 @@ recv_time = ()
 post_time = ()
 
 # Just a hacky way for the server to know who has connected
-def tell_server_of_connection(playername):
-    udp_socket.sendto(playername, (host,port))
+def tell_server_of_connection(playername, server):
+    udp_socket.sendto(playername, (server,port))
 
 # Recieve the random generated position from the server
 def recieve_position_and_object_from_server():
