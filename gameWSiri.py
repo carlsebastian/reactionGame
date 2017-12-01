@@ -6,6 +6,11 @@ from math import sqrt
 from client import *
 import time
 
+nrplayers = 2
+points = 0
+player_name = ""
+server= ""
+
 def insideCircle(circle, click):
     center = circle.getCenter()
     distance = sqrt(((click.x - center.x) ** 2) +
@@ -115,16 +120,37 @@ def init(nrplayers, points):
     i = 0
     height = 10
     playerBox.draw(win)
+    #players = get_player_names() En funktion som skickar alla namn på spelarna TODO
+    players= []
+    players.append(player_name)
+    players.append("dummy")
     while i < nrplayers:
-        Text(Point(100,height), "Player " + str(i+1) + " have: " + str(points) + " points").draw(win)
+        Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
         i += 1
         height += 20
     return win
 
+def make_intro_win():
+    global player_name, server
+    win = GraphWin("start", 1000, 1000)
+
+    Text(Point((win.getWidth())/6,win.getHeight()/10), "Player name: ").draw(win)
+    name_entry = Entry(Point(win.getWidth()/2,win.getHeight()/10), 50)
+    Text(Point((win.getWidth())/6,9*win.getHeight()/10), "Which server?").draw(win)
+    server_entry = Entry(Point(win.getWidth()/2,9*win.getHeight()/10), 50)
+    name_entry.draw(win)
+    server_entry.draw(win)
+
+    win.getMouse()
+    win.close()
+    player_name = name_entry.getText()
+    server = server_entry.getText()
+    return
+
 def main():
-    nrplayers = 2
-    points = 0
-    tell_server_of_connection("Sebbe")
+    global nrplayers, points, player_name, server
+    make_intro_win()
+    tell_server_of_connection(player_name, server)
     win = init(nrplayers, points)
     i = 0
     while(i < 5):
@@ -134,7 +160,7 @@ def main():
         #pt = Point(500,500) #För att testa utan server
         drawObject(pt, int(obj), win)
         send_timestamp()
-        #time.sleep(1)
+        #time.sleep(1)#För att testa utan server
         i += 1
 
 if __name__ == "__main__":
