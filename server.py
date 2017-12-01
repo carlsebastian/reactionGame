@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pickle
 import socket
 import sys  #for exit
 from random import randint
@@ -20,8 +21,11 @@ host = socket.gethostname() #ip
 port = 1234
 udp_socket.bind((host, port))
 user = []
+round_result = []
 message = []
 address = []
+userid_winner = ''
+score_game = []
 #-----------------------------
 
 #randomized coordinates for objects
@@ -51,23 +55,55 @@ def await_connections():
         m, a = udp_socket.recvfrom(1024)
         address.append(a)
         user.append(m)
-        print ('connection from', address[i])
+        score_game.append(0)
+        print('connection from', address[i] ,'Player Name', user[i])
         i = i+1
     return True
 
 #Receive timestamp from clients and append to message array
 def recieve_timestamp():
     i = 0
-    print ('omgång')
     while i<2: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         ui = address.index(a)
         userid = user[ui]
-        message.append(m)
-        print (userid,m)
+        round_result.append([userid,m])
         i = i+1
     return True
 
+#present the winner
+def score_present_server():
+    global round_result
+    oldmax = round_result[0]
+    for potnewmax in round_result:
+        if potnewmax[1] <= oldmax[1]:
+            oldmax = potnewmax
+    print(oldmax[0], 'Is the winner')
+    userid_winner = oldmax[0]
+    round_result = []
+
+#send winner to clients
+def score_send_clients():
+    if userid_winner != '':
+        winner_i = user.index(userid_winner)
+        score_game[winner_i] = score_game[winner_i]+1
+    user_score = ''
+    i = 0
+    for i in range(len(score_game)):
+        user_score = user_score+user[i]+','+str(score_game[i])+';'
+        i = i+1
+    for addr in address:
+        udp_socket.sendto(user_score,addr)
+
+#logging
+def log_round():
+    log_result = {} # Logga variables som håller round-info
+    pickle.dump(log_result, open( "log.p", "ab" ) )
+
+#Erase log.p
+def log_erase():
+    empty = {} # Tömmer filen, vill vi göra efter varje avslutat spel, samt kanske i början
+    pickle.dump( empty, open( "log.p", "wb" ) )
 
 #Main routine, GameHandler
 def main():
@@ -79,16 +115,20 @@ def main():
     got_timestamps = False
 
     print ("listening on port, and address" , host, port)
-    while True:
+    i= 0 # test
+    while i<5:
         random_position_and_object = randomize_coordinates()
         if(not connection_limit):
             connection_limit = await_connections()
+        score_send_clients()
         if(not sent_position):
             sent_position = send_position_to_players(random_position_and_object, address)
             got_timestamps = False
         if(not got_timestamps):
             got_timestamps = recieve_timestamp()
             sent_position = False
+        score_present_server()
+        i= i+1
     udp_socket.close()
 
 if __name__ == "__main__":
