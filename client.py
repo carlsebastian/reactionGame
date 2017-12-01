@@ -31,6 +31,18 @@ def recieve_position_and_object_from_server():
     recv_time = datetime.datetime.now()
     return obj, coord
 
+#Receive score and playernames
+def score_user_receive():
+    msg, addr = udp_socket.recvfrom(1024)
+    data = msg.split(';')
+    players = []
+    scores = []
+    for i in range(len(data)-1):
+        p = data[i].split(',')
+        players.append(p[0])
+        scores.append(p[1])
+    return players, scores
+
 def send_timestamp():
     global post_time
     global recv_time
@@ -39,10 +51,11 @@ def send_timestamp():
     udp_socket.sendto('[1,'+str(diff_time)+']', (host,port))
 
 #def main():
-#    tell_server_of_connection("sebbe")
+#    tell_server_of_connection("sebbe",'130.243.197.82')
 #    while True:
-#        recieve_position_and_object_from_server()
+#       users, scores = score_user_receive()
+        # recieve_position_and_object_from_server()
 #        send_timestamp()
-#    s.close
-#if __name__ == "__main__":
-#    main()
+    s.close
+if __name__ == "__main__":
+    main()

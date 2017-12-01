@@ -56,7 +56,7 @@ def await_connections():
         address.append(a)
         user.append(m)
         score_game.append(0)
-        print('connection from', address[i] ,'Player Name', user[i])
+        print("connection from "+str(address[i])+",  Player Name: " +user[i])
         i = i+1
     return True
 
