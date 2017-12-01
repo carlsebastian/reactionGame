@@ -73,7 +73,7 @@ def recieve_timestamp():
 
 #present the winner
 def score_present_server():
-    global round_result
+    global round_result, userid_winner
     oldmax = round_result[0]
     for potnewmax in round_result:
         if potnewmax[1] <= oldmax[1]:

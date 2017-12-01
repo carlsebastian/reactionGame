@@ -111,8 +111,11 @@ def drawObject(position, form_id, win):
         T.undraw()
 
 
-def init(nrplayers, points):
+def init():
+    global win
     win = GraphWin("Game", 1000, 500)
+
+def redraw_scorebox(nrplayers):
     global playerBox
     heightbox = 20 * nrplayers
     playerBox = Rectangle(Point(0,0), Point(300,heightbox))
@@ -120,15 +123,11 @@ def init(nrplayers, points):
     i = 0
     height = 10
     playerBox.draw(win)
-
     players, score = score_user_receive()
-
-
     while i < nrplayers:
-        Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
+        Text(Point(100,height), players[i] + " have: " + str(score[i]) + " points").draw(win)
         i += 1
         height += 20
-    return win
 
 def make_intro_win():
     global player_name, server
@@ -148,12 +147,13 @@ def make_intro_win():
     return
 
 def main():
-    global nrplayers, points, player_name, server
+    global nrplayers,  player_name, server
     make_intro_win()
     tell_server_of_connection(player_name, server)
-    win = init(nrplayers, points)
+    init()
     i = 0
     while(i < 5):
+        redraw_scorebox(nrplayers)
         obj, coord = recieve_position_and_object_from_server()
         pt = Point(int(coord[0]), int(coord[1]))
         #obj = randint(0,2) #För att testa utan server
