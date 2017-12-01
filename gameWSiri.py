@@ -123,6 +123,7 @@ def init(nrplayers, points):
 
     players, score = score_user_receive()
 
+
     while i < nrplayers:
         Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
         i += 1
