@@ -9,7 +9,7 @@ import time
 nrplayers = 2
 points = 0
 player_name = ""
-server = ["000.000.000.000","000.000.000.001"]
+server= ""
 
 def insideCircle(circle, click):
     center = circle.getCenter()
@@ -136,32 +136,21 @@ def make_intro_win():
 
     Text(Point((win.getWidth())/6,win.getHeight()/10), "Player name: ").draw(win)
     name_entry = Entry(Point(win.getWidth()/2,win.getHeight()/10), 50)
-    Text(Point((win.getWidth())/6,2*win.getHeight()/10), "The available server: ").draw(win)
-    Text(Point((win.getWidth())/6,9*win.getHeight()/10), "Which server? (index) ").draw(win)
+    Text(Point((win.getWidth())/6,9*win.getHeight()/10), "Which server?").draw(win)
     server_entry = Entry(Point(win.getWidth()/2,9*win.getHeight()/10), 50)
-    i = 3
-    for x in server:
-        Text(Point((win.getWidth())/2,i*win.getHeight()/10),str(i-2) + '# ' + x).draw(win)
-        i += 1
     name_entry.draw(win)
     server_entry.draw(win)
+
     win.getMouse()
+    win.close()
     player_name = name_entry.getText()
-    server_index = server_entry.getText()
-    if(int(server_index)-1 > len(server)):
-        raise ValueError('För stort större index än det finns servrar')
-    elif(int(server_index)-1 < 0):
-        raise ValueError('För litet mindre än 0')
-    else:
-        server = server[int(server_index)-1]
-        win.close()
-        return
+    server = server_entry.getText()
+    return
 
 def main():
-    tell_server_of_connection()
     global nrplayers, points, player_name, server
-    #available_servers_to_connect() #En funktion som anger vilka servrar man kan välja mellan och sparar den i server variabeln, kan edera vara här eller i func make_intro_win TODO
     make_intro_win()
+    tell_server_of_connection(player_name, server)
     win = init(nrplayers, points)
     i = 0
     while(i < 5):
