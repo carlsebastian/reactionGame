@@ -38,11 +38,11 @@ def send_timestamp():
     diff_time = post_time - recv_time
     udp_socket.sendto('[1,'+str(diff_time)+']', (host,port))
 
-def main():
-    tell_server_of_connection("sebbe")
-    while True:
-        recieve_position_and_object_from_server()
-        send_timestamp()
-    s.close
-if __name__ == "__main__":
-    main()
+#def main():
+#    tell_server_of_connection("sebbe")
+#    while True:
+#        recieve_position_and_object_from_server()
+#        send_timestamp()
+#    s.close
+#if __name__ == "__main__":
+#    main()
