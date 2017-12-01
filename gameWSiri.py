@@ -112,7 +112,7 @@ def drawObject(position, form_id, win):
 
 
 def init(nrplayers, points):
-    win = GraphWin("Game", 1000, 1000)
+    win = GraphWin("Game", 1000, 500)
     global playerBox
     heightbox = 20 * nrplayers
     playerBox = Rectangle(Point(0,0), Point(300,heightbox))
@@ -120,10 +120,9 @@ def init(nrplayers, points):
     i = 0
     height = 10
     playerBox.draw(win)
-    #players = get_player_names() En funktion som skickar alla namn på spelarna TODO
-    players= []
-    players.append(player_name)
-    players.append("dummy")
+
+    players, score = score_user_recieve()
+
     while i < nrplayers:
         Text(Point(100,height), players[i] + " have: " + str(points) + " points").draw(win)
         i += 1
@@ -132,7 +131,7 @@ def init(nrplayers, points):
 
 def make_intro_win():
     global player_name, server
-    win = GraphWin("start", 1000, 1000)
+    win = GraphWin("start", 1000, 500)
 
     Text(Point((win.getWidth())/6,win.getHeight()/10), "Player name: ").draw(win)
     name_entry = Entry(Point(win.getWidth()/2,win.getHeight()/10), 50)
