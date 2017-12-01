@@ -84,7 +84,6 @@ def score_present_server():
 
 #send winner to clients
 def score_send_clients():
-    print userid_winner
     if userid_winner != '':
         winner_i = user.index(userid_winner)
         score_game[winner_i] = score_game[winner_i]+1
