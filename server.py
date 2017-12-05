@@ -30,7 +30,7 @@ score_game = []
 
 #randomized coordinates for objects
 def randomize_coordinates():
-    obj = (randint(1, 1))
+    obj = (randint(0, 2))
     x = (randint(100, 500)) #random integer
     y = (randint(100, 500))
     return str(obj)+','+str(x)+','+str(y)
