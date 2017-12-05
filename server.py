@@ -12,14 +12,18 @@ import datetime
 #------------
 
 #Establishes a UDP-socket
-try:
-    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP
-except socket.error as msg:
-    print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
-    sys.exit();
-host = socket.gethostname() #ip
+def establish_socket():
+    global udp_socket
+    try:
+        udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP
+        udp_socket.bind((host, port))
+    except socket.error as msg:
+        print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
+        sys.exit();
+
+udp_socket = ''
+host = '' #ip
 port = 1234
-udp_socket.bind((host, port))
 user = []
 round_result = []
 message = []
@@ -107,8 +111,17 @@ def log_erase():
     empty = {} # Tömmer filen, vill vi göra efter varje avslutat spel, samt kanske i början
     pickle.dump( empty, open( "log.p", "wb" ) )
 
+
+def take_arg_ip():
+    global host
+    if len(sys.argv)>1:
+        host = str(sys.argv[1])
+    else:
+        host = socket.gethostname()
 #Main routine, GameHandler
 def main():
+    take_arg_ip()
+    establish_socket()
     #Some variables Needed
     global address # Address array from connected clients
     global message # Messages from connected clients, might be redundant.
