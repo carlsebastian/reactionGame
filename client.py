@@ -30,9 +30,9 @@ def recieve_position_and_object_from_server():
     obj = data[0]
     coord = data[1],data[2]
     global show_time
-    show_time = data[3]
+    show_time = datetime.strptime(data[3], '%Y-%m-%d %H:%M:%S.%f')
     while datetime.datetime.now() < show_time:
-
+        pass
     return obj, coord
 
 #Receive score and playernames
