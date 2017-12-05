@@ -17,7 +17,7 @@ try:
 except socket.error as msg:
     print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
     sys.exit();
-host = socket.gethostname() #ip
+host = '212.25.155.130'#socket.gethostname() #ip
 port = 1234
 udp_socket.bind((host, port))
 user = []
@@ -33,7 +33,8 @@ def randomize_coordinates():
     obj = (randint(1, 1))
     x = (randint(100, 500)) #random integer
     y = (randint(100, 500))
-    return str(obj)+','+str(x)+','+str(y)
+    time  = datetime.datetime.now() + datetime.timedelta(0,3)
+    return str(obj)+','+str(x)+','+str(y) + ',' + str(time)
 
 #sends position to players from array address
 def send_position_to_players(position, address):

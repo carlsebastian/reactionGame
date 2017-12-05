@@ -14,7 +14,7 @@ except socket.error as msg:
 port = 1234
 #-----------------------------
 #Global variables
-recv_time = ()
+show_time = ()
 post_time = ()
 host = ''
 # Just a hacky way for the server to know who has connected
@@ -29,8 +29,10 @@ def recieve_position_and_object_from_server():
     data = msg.split(',')
     obj = data[0]
     coord = data[1],data[2]
-    global recv_time
-    recv_time = datetime.datetime.now()
+    global show_time
+    show_time = data[3]
+    while datetime.datetime.now() < show_time:
+
     return obj, coord
 
 #Receive score and playernames
@@ -47,9 +49,9 @@ def score_user_receive():
 
 def send_timestamp():
     global post_time
-    global recv_time
+    global show_time
     post_time = datetime.datetime.now()
-    diff_time = post_time - recv_time
+    diff_time = post_time - show_time
     udp_socket.sendto('[1,'+str(diff_time)+']', (host,port))
 
 #def main():
