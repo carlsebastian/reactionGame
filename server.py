@@ -33,7 +33,9 @@ def randomize_coordinates():
     obj = (randint(0, 2))
     x = (randint(100, 500)) #random integer
     y = (randint(100, 500))
-    return str(obj)+','+str(x)+','+str(y)
+    w = (randint(1, 5))
+    time  = datetime.datetime.now() + datetime.timedelta(0,w)
+    return str(obj)+','+str(x)+','+str(y) + ',' + str(time)
 
 #sends position to players from array address
 def send_position_to_players(position, address):
