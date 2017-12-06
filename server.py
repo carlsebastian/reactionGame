@@ -10,6 +10,20 @@ import datetime
 #ni.ifaddresses('wlp2s0')
 #ip = ni.ifaddresses('wlp2s0')[ni.AF_INET][0]['addr']
 #------------
+<<<<<<< HEAD
+=======
+
+#Establishes a UDP-socket
+def establish_socket():
+    global udp_socket
+    try:
+        udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP
+        udp_socket.bind((host, port))
+    except socket.error as msg:
+        print ('Misslyckades med att skapa socket. Felkod: ' + str(msg[0]) + ' , Felmeddelande : ' + msg[1])
+        sys.exit();
+
+>>>>>>> origin/master
 udp_socket = ''
 host = '' #ip
 port = 1234
@@ -18,8 +32,12 @@ round_result = []
 message = []
 address = []
 userid_winner = ''
+<<<<<<< HEAD
 score_game = [] #only the scores througout a game
 user_score = '' #Score and the corresponding user throughout a game
+=======
+score_game = []
+>>>>>>> origin/master
 #-----------------------------
 
 #Establishes a UDP-socket
@@ -160,7 +178,7 @@ def main():
         score_present_server()
         log_round()
         i= i+1
-    log_check()
+    log_erase()
     udp_socket.close()
 
 if __name__ == "__main__":
