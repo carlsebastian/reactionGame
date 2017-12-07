@@ -66,9 +66,7 @@ def drawObjectRec(position, win):
         click = win.getMouse() # pause for click in window
         if(insideRectangle(left_pt, right_pt,click)):
             boo = True
-        else:
-            print(insideRectangle(left_pt, right_pt, click))
-    R.undraw()
+        R.undraw()
 
 
 def drawObject(position, form_id, win):
