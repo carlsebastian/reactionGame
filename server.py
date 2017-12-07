@@ -162,7 +162,6 @@ def log_check():
         log_erase()
         return False
     if log != '':
-        print(log)
         print('förra spelet avslutades ej! Laddar in...')
         log_load_values(log)
         print('Done!')
