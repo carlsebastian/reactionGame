@@ -8,7 +8,9 @@ import time
 
 nrplayers = 2
 player_name = ""
-server= ""
+server = ""
+score = []
+players = []
 
 def insideCircle(circle, click):
     center = circle.getCenter()
@@ -54,13 +56,13 @@ def calc_right_point(position, width, height):
     ypos = position.getY()
     return Point(xpos + width,ypos + height)
 
-def drawObjectRec(position, win):
+def drawButton(position, win, text, color):
     left_pt = calc_left_point(position, 150, 50)
     right_pt = calc_right_point(position, 150, 50)
     R = Rectangle(left_pt, right_pt)
-    R.setFill("green")
+    R.setFill(color)
     R.draw(win)
-    Text(position, "Press to enter our AWESOME game").draw(win)
+    Text(position, text).draw(win)
     boo = False
     while(not(boo)):
         click = win.getMouse() # pause for click in window
@@ -129,7 +131,7 @@ def init():
     win = GraphWin("Game", 1000, 500)
 
 def redraw_scorebox(nrplayers):
-    global playerBox
+    global playerBox, score, players
     heightbox = 20 * nrplayers
     playerBox = Rectangle(Point(0,0), Point(300,heightbox))
     playerBox.setFill('white')
@@ -153,16 +155,35 @@ def make_intro_win():
     name_entry.draw(win)
     server_entry.draw(win)
 
-    drawObjectRec(Point(win.getWidth()/2,6*win.getHeight()/10), win)
+    drawButton(Point(win.getWidth()/2,6*win.getHeight()/10), win, "Press here to play our awesome game", "green" )
 
     player_name = name_entry.getText()
     server = server_entry.getText()
 
     win.close()
     return
+#creates the goodbye window
+def goodbye_win(nrplayers):
+    players, score = score_user_receive()
+    count = 0
+    scoore = score[0]
+    winner = players[0]
+    while count < (nrplayers - 1):
+        if score[count] < score[count + 1]:
+            winner = players[count+1]
+            scoore = score[count+1]
+        else:
+            pass
+        count = count + 1
+    goodbye_win = GraphWin("start", 1000, 500)
+    txt = Text(Point(goodbye_win.getWidth()/2, goodbye_win.getHeight()/4), str(winner) + ' is the winner with ' + str(scoore) + ' points!!')
+    txt.draw(goodbye_win)
+    drawButton(Point(goodbye_win.getWidth()/2,6*goodbye_win.getHeight()/10), goodbye_win, "finnish", "green" )
+
+
 
 def main():
-    global nrplayers,  player_name, server
+    global nrplayers, player_name
     make_intro_win()
     tell_server_of_connection(player_name, server)
     init()
@@ -177,6 +198,9 @@ def main():
         send_timestamp()
         #time.sleep(1)#För att testa utan server
         i += 1
+    win.close() # optional if we want game windw to close immediatly
+    goodbye_win(nrplayers)
+
 
 if __name__ == "__main__":
     main()

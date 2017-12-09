@@ -22,7 +22,7 @@ def establish_socket():
         sys.exit();
 
 udp_socket = ''
-host = '' #ip
+host = '192.168.1.109' #ip
 port = 1234
 user = []
 round_result = []
@@ -120,7 +120,7 @@ def take_arg_ip():
         host = socket.gethostname()
 #Main routine, GameHandler
 def main():
-    take_arg_ip()
+    #take_arg_ip()
     establish_socket()
     #Some variables Needed
     global address # Address array from connected clients
@@ -144,6 +144,7 @@ def main():
             sent_position = False
         score_present_server()
         i= i+1
+    score_send_clients()
     udp_socket.close()
 
 if __name__ == "__main__":
