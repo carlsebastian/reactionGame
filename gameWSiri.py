@@ -8,7 +8,9 @@ import time
 
 nr_players = 0
 player_name = ""
-server= ""
+server = ""
+score = []
+players = []
 
 def insideCircle(circle, click):
     center = circle.getCenter()
@@ -54,13 +56,13 @@ def calc_right_point(position, width, height):
     ypos = position.getY()
     return Point(xpos + width,ypos + height)
 
-def drawObjectRec(position, win):
+def drawButton(position, win, text, color):
     left_pt = calc_left_point(position, 150, 50)
     right_pt = calc_right_point(position, 150, 50)
     R = Rectangle(left_pt, right_pt)
-    R.setFill("green")
+    R.setFill(color)
     R.draw(win)
-    Text(position, "Press to enter our AWESOME game").draw(win)
+    Text(position, text).draw(win)
     boo = False
     while(not(boo)):
         click = win.getMouse() # pause for click in window
@@ -84,8 +86,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideRectangle(left_pt, right_pt,click)):
                 boo = True
-            else:
-                print(insideRectangle(left_pt, right_pt, click))
         R.undraw()
 
     elif form_id == 1:
@@ -96,8 +96,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideCircle(C,click)):
                 boo = True
-            else:
-                print(insideCircle(C,click))
         C.undraw()
 
     else:
@@ -117,8 +115,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideTriangle(left_pt, right_pt, top_pt, click)):
                 boo = True
-            else:
-                print(insideTriangle(left_pt, right_pt, top_pt, click))
         T.undraw()
 
 
@@ -151,16 +147,35 @@ def make_intro_win():
     name_entry.draw(win)
     server_entry.draw(win)
 
-    drawObjectRec(Point(win.getWidth()/2,6*win.getHeight()/10), win)
+    drawButton(Point(win.getWidth()/2,6*win.getHeight()/10), win, "Press here to play our awesome game", "green" )
 
     player_name = name_entry.getText()
     server = server_entry.getText()
 
     win.close()
     return
+#creates the goodbye window
+def goodbye_win(nrplayers):
+    players, score = score_user_receive()
+    count = 0
+    scoore = score[0]
+    winner = players[0]
+    while count < (nrplayers - 1):
+        if score[count] < score[count + 1]:
+            winner = players[count+1]
+            scoore = score[count+1]
+        else:
+            pass
+        count = count + 1
+    goodbye_win = GraphWin("start", 1000, 500)
+    txt = Text(Point(goodbye_win.getWidth()/2, goodbye_win.getHeight()/4), str(winner) + ' is the winner with ' + str(scoore) + ' points!!')
+    txt.draw(goodbye_win)
+    drawButton(Point(goodbye_win.getWidth()/2,6*goodbye_win.getHeight()/10), goodbye_win, "finnish", "green" )
+
+
 
 def main():
-    global player_name, server
+    global player_name, server, nr_players
     make_intro_win()
     tell_server_of_connection(player_name, server)
     init()
@@ -169,12 +184,12 @@ def main():
         redraw_scorebox()
         obj, coord = recieve_position_and_object_from_server()
         pt = Point(int(coord[0]), int(coord[1]))
-        #obj = randint(0,2) #För att testa utan server
-        #pt = Point(500,500) #För att testa utan server
         drawObject(pt, int(obj), win)
         send_timestamp()
-        #time.sleep(1)#För att testa utan server
         i += 1
+    win.close() # optional if we want game windw to close immediatly
+    goodbye_win(nr_players)
+
 
 if __name__ == "__main__":
     main()
