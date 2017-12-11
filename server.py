@@ -173,13 +173,13 @@ def take_arg_ip():
     global host, nr_players
     if len(sys.argv)==2:
         host = str(sys.argv[1])
-        nr_players = 2
+        nr_players = 1
     elif len(sys.argv)==3:
         host = str(sys.argv[1])
-        nr_players = sys.argv[2]
+        nr_players = int(sys.argv[2])
     else:
         host = socket.gethostname()
-        nr_players = 2
+        nr_players = 1
         print('!!To provide your IP instead of default "gethostname", give ip as an argument "python server <ip> <nrplayers>"!!')
 
 

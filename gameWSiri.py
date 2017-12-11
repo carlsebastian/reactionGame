@@ -156,11 +156,11 @@ def make_intro_win():
     return
 #creates the goodbye window
 def goodbye_win(nrplayers):
-    players, score = score_user_receive()
+    players, score, epsilon = score_user_receive()
     count = 0
     scoore = score[0]
     winner = players[0]
-    while count < (nrplayers - 1):
+    while count < (nr_players - 1):
         if score[count] < score[count + 1]:
             winner = players[count+1]
             scoore = score[count+1]
