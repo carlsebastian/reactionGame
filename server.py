@@ -11,6 +11,7 @@ import datetime
 #ni.ifaddresses('wlp2s0')
 #ip = ni.ifaddresses('wlp2s0')[ni.AF_INET][0]['addr']
 #------------
+nr_players = 0
 udp_socket = ''
 host = '' #ip
 port = 1234
@@ -61,16 +62,17 @@ def send_position_to_players(position, address):
 
 #awaits udp connections from clients and puts them into the global variable address
 def await_connections(load):
-    global score_game, addressip
+    global score_game, addressip, nr_players
     i = 0
-    while i<2: # Wait for connection from players
+    while i < nr_players: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         address.append(a)
         addressip.append(a[0])
         user.append(m)
         score_game.append(0)
         print("connection from "+str(address[i])+",  Player Name: " +user[i])
-        i = i+1
+        i += 1
+
     #Log loading crosschecking with connected IP's
     if(load):
         i = 0
@@ -95,7 +97,7 @@ def await_connections(load):
 #Receive timestamp from clients and append to message array
 def recieve_timestamp():
     i = 0
-    while i<2: # Wait for connection from players
+    while i<nr_players: # Wait for connection from players
         m, a = udp_socket.recvfrom(1024)
         ui = address.index(a)
         userid = user[ui]
@@ -168,12 +170,20 @@ def log_check():
         return True
 
 def take_arg_ip():
-    global host
-    if len(sys.argv)>1:
+    global host, nr_players
+    if len(sys.argv)==2:
         host = str(sys.argv[1])
+        nr_players = 2
+    elif len(sys.argv)==3:
+        host = str(sys.argv[1])
+        nr_players = sys.argv[2]
     else:
         host = socket.gethostname()
-        print('!!To provide your IP instead of default "gethostname", give ip as an argument "python server <ip>"!!')
+        nr_players = 2
+        print('!!To provide your IP instead of default "gethostname", give ip as an argument "python server <ip> <nrplayers>"!!')
+
+
+
 #Main routine, GameHandler
 def main():
     take_arg_ip()
@@ -188,11 +198,11 @@ def main():
     print ("listening on port, and address" , host, port)
     i= 0 # test
     while i<5:
-        random_position_and_object = randomize_coordinates()
         if(not connection_limit):
             connection_limit = await_connections(old_bool)
         score_send_clients()
         log_round()
+        random_position_and_object = randomize_coordinates()
         if(not sent_position):
             sent_position = send_position_to_players(random_position_and_object, address)
             got_timestamps = False

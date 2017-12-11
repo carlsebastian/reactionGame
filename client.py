@@ -45,7 +45,7 @@ def score_user_receive():
         p = data[i].split(',')
         players.append(p[0])
         scores.append(p[1])
-    return players, scores
+    return players, scores, len(players)
 
 def send_timestamp():
     global post_time
