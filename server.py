@@ -201,6 +201,8 @@ def main():
             sent_position = False
         score_present_server()
         i= i+1
+
+    score_send_clients()
     log_erase()
     udp_socket.close()
 
