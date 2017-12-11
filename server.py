@@ -85,7 +85,10 @@ def await_connections(load):
                 if addr_i == temp:
                     addr_i = addr_i+1
                 #----------------
-                score_game[addr_i] = int(old_scores[addr_i])
+                try:
+                    score_game[addr_i] = int(old_scores[addr_i])
+                except IndexError:
+                    pass
                 # fortsättnig
                 temp = addr_i
                 #----------------
