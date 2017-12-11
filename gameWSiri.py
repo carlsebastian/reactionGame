@@ -84,8 +84,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideRectangle(left_pt, right_pt,click)):
                 boo = True
-            else:
-                print(insideRectangle(left_pt, right_pt, click))
         R.undraw()
 
     elif form_id == 1:
@@ -96,8 +94,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideCircle(C,click)):
                 boo = True
-            else:
-                print(insideCircle(C,click))
         C.undraw()
 
     else:
@@ -117,8 +113,6 @@ def drawObject(position, form_id, win):
             click = win.getMouse() # pause for click in window
             if(insideTriangle(left_pt, right_pt, top_pt, click)):
                 boo = True
-            else:
-                print(insideTriangle(left_pt, right_pt, top_pt, click))
         T.undraw()
 
 
@@ -169,11 +163,8 @@ def main():
         redraw_scorebox(nrplayers)
         obj, coord = recieve_position_and_object_from_server()
         pt = Point(int(coord[0]), int(coord[1]))
-        #obj = randint(0,2) #För att testa utan server
-        #pt = Point(500,500) #För att testa utan server
         drawObject(pt, int(obj), win)
         send_timestamp()
-        #time.sleep(1)#För att testa utan server
         i += 1
 
 if __name__ == "__main__":
