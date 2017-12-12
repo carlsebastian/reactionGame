@@ -54,6 +54,10 @@ def send_timestamp():
     diff_time = post_time - show_time
     udp_socket.sendto('[1,'+str(diff_time)+']', (host,port))
 
+def recieive_nr_rounds():
+    msg, addr = udp_socket.recvfrom(1024)
+    return int(msg)
+
 #def main():
 #    tell_server_of_connection("sebbe",'130.243.197.82')
 #    while True:

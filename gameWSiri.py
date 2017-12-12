@@ -179,8 +179,9 @@ def main():
     make_intro_win()
     tell_server_of_connection(player_name, server)
     init()
+    nr_rounds = recieive_nr_rounds()
     i = 0
-    while(i < 5):
+    while(i < nr_rounds):
         redraw_scorebox()
         obj, coord = recieve_position_and_object_from_server()
         pt = Point(int(coord[0]), int(coord[1]))
