@@ -11,6 +11,7 @@ import datetime
 #ni.ifaddresses('wlp2s0')
 #ip = ni.ifaddresses('wlp2s0')[ni.AF_INET][0]['addr']
 #------------
+nr_rounds = 0
 nr_players = 0
 udp_socket = ''
 host = '' #ip
@@ -173,18 +174,29 @@ def log_check():
         return True
 
 def take_arg_ip():
-    global host, nr_players
+    global host, nr_players, nr_rounds
     if len(sys.argv)==2:
         host = str(sys.argv[1])
         nr_players = 1
+        nr_rounds = 5
     elif len(sys.argv)==3:
-        host = str(sys.argv[1])
         nr_players = int(sys.argv[2])
+        host = str(sys.argv[1])
+        nr_rounds = 5
+    elif len(sys.argv)==4:
+        nr_rounds = int(sys.argv[3])
+        nr_players = int(sys.argv[2])
+        host = str(sys.argv[1])
     else:
         host = socket.gethostname()
         nr_players = 1
-        print('!!To provide your IP instead of default "gethostname", give ip as an argument "python server <ip> <nrplayers>"!!')
+        nr_rounds = 5
+        print('!!To provide your IP instead of default "gethostname", give ip as an argument "python server <ip> <nrplayers> <nrrounds>"!!')
 
+def send_nr_rounds():
+    global nr_rounds
+    for addr in address:
+        udp_socket.sendto(str(nr_rounds),addr)
 
 
 #Main routine, GameHandler
@@ -199,10 +211,10 @@ def main():
     got_timestamps = False
     old_bool = log_check()
     print ("listening on port, and address" , host, port)
+    await_connections(old_bool)
+    send_nr_rounds()
     i= 0 # test
-    while i<5:
-        if(not connection_limit):
-            connection_limit = await_connections(old_bool)
+    while i<nr_rounds:
         score_send_clients()
         log_round()
         random_position_and_object = randomize_coordinates()
