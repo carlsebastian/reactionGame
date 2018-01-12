@@ -106,15 +106,16 @@ Vi försöker sätta upp veckomål, hur lång vi vill ha kommit efter varje veck
 \section{Slutgiltiga reflektioner}
 
 \subsection{Vad kunde vi ha gjort bättre?}
-Vi skulle kundat ha implementerat stöd för andra språk än engelska, då vi inte hade testat dessa bokstäver i inputen innan redovisningen. Så att programmet inte krashar.\\
+Under redovisningen insåg vi att programmet krashar när spelare försöker logga in med icke-engelska bokstäver. Ifall en spelare har ett inlogg med svenska bokstäver som Å,Ä eller Ö, så orsakade detta en krash för hela programmet. Därför vore det väldigt viktigt att implementera stöd för andra språk än engelska. \\
 \\
-Vi borde ha implementerat stöd för om ett packet frösvinner, det skulle kunna varit återsändning alternativt TCP protocol istället för UDP.\\
+Ett annat ganska så allvarligt problem, som även det kan orska en krash, är att programmet är väldigt seriellt. Exempelvis så har vi inte något stöd för försvunna packet. Stöd för försvunna packet skulle kunna vara återsändning alternativt TCP protocol istället för UDP i vissa fall. \\
 \\
-Vi skulle kunnat implementerat stöd för n-hörningar då vi redan har algoritmen för att bestämma om man klickat i n-hörningen eller inte.
+Den nuvarande versionen av spelet har endast trianglar, cirklar och fyrkanter. Dessa figurer är rätt enkla att både skapa och att räkna på. Därför skulle det vara en rolig utmaning att implementera en generell formel för n-hörningar. Vi har redan en ganska bra algoritm för att räkna ut ifall en spelare har klickat innanför en triangel eller inte. Därför vore det lämpligt att använda sig av den redan befintliga triangel-algoritm och försöka göra den mer generell för n-hörningar\\
+\\
 
 \subsection{Hur har arbetet fortlöpt?}
-Arbetet har fungerat bra, vi har arbetat i par, front-end och back-end.
-Det har varit bra kommunikation mellan båda paren, om back-end behöver något så fungerade kommunikationen till front-enden väldigt smidigt.
+Vi har arbetat i par, en front-end och en back-end grupp. Det har fungerat bra att arbeta med denna uppdelning. Kommunikationen mellan grupparna har fungerat fantastiskt bra. Vid ett par tillfällen så har back-end gruppen behöver specifika funktioner ifrån front-end gruppen för tester. Eftersom kommunikationen har fungerat så pass bra som det har så har back-end gruppen aldrig behövt vänta särskillt länge innan de får de funktioner som de behöver ifrån front-end gruppen. \\
+\\
 
 \section{Slutgiltig design}
 Ett spel där man tävlar 1 mot N antal spelare i reaktionshastighet. Spelarna delar en gemensam spelplan som när spelet startar är tom. En kvadrat,cirkel eller triangel slumpas fram på spelplanen och det gäller att vara den första som klicka på figuren. Servern skickar vilken tid som figuren ska visas för spelarna, vanligtvis en delay på 3 sek. När en spelare sedan klickar på figuren tar man den aktuella tiden minus den givna tiden då figuren visades. Denna differens skickas sedan till servern som väljer den minsta tiden. Denna spelare får ett poäng.
