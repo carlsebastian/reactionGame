@@ -106,19 +106,19 @@ Vi försöker sätta upp veckomål, hur lång vi vill ha kommit efter varje veck
 \section{Slutgiltiga reflektioner}
 
 \subsection{Vad kunde vi ha gjort bättre?}
-Under redovisningen insåg vi att programmet krashar när spelare försöker logga in med icke-engelska bokstäver. Ifall en spelare har ett inlogg med svenska bokstäver som Å,Ä eller Ö, så orsakade detta en krash för hela programmet. Därför vore det väldigt viktigt att implementera stöd för andra språk än engelska. \\
+Under redovisningen insåg vi att programmet kraschar när spelare försöker logga in med icke-engelska bokstäver. Ifall en spelare har ett inlogg med svenska bokstäver som Å,Ä eller Ö, så orsakade detta en krasch för hela programmet. Därför vore det en prioriterad vidareutveckling att implementera stöd för andra bokstäver än engelska. \\
 \\
-Ett annat ganska så allvarligt problem, som även det kan orska en krash, är att programmet är väldigt seriellt. Exempelvis så har vi inte något stöd för försvunna packet. Stöd för försvunna packet skulle kunna vara återsändning alternativt TCP protocol istället för UDP i vissa fall. \\
+Ett annat relativt allvarligt problem, som även det kan orska en krash, är att programmet är väldigt sekvensiellt. Exempelvis så har vi inte något stöd för försvunna packet. Stöd för försvunna packet skulle kunna vara återsändning av dessa paket eller alternativt att använda TCP protocol istället för UDP i vissa fall. \\
 \\
-Den nuvarande versionen av spelet har endast trianglar, cirklar och fyrkanter. Dessa figurer är rätt enkla att både skapa och att räkna på. Därför skulle det vara en rolig utmaning att implementera en generell formel för n-hörningar. Vi har redan en ganska bra algoritm för att räkna ut ifall en spelare har klickat innanför en triangel eller inte. Därför vore det lämpligt att använda sig av den redan befintliga triangel-algoritm och försöka göra den mer generell för n-hörningar\\
+Den nuvarande versionen av spelet har endast trianglar, cirklar och fyrkanter. Dessa figurer är rätt enkla att både skapa och att räkna på. Därför skulle det vara en rolig utmaning att implementera en generell formel för n-hörningar. Vi har redan en bra algoritm för att räkna ut ifall en spelare har klickat innanför en triangel eller inte. Därför vore det lämpligt att använda sig av den redan befintliga triangel-algoritm och försöka göra den generell för n-hörningar\\
 \\
 
 \subsection{Hur har arbetet fortlöpt?}
-Vi har arbetat i par, en front-end och en back-end grupp. Det har fungerat bra att arbeta med denna uppdelning. Kommunikationen mellan grupparna har fungerat fantastiskt bra. Vid ett par tillfällen så har back-end gruppen behöver specifika funktioner ifrån front-end gruppen för tester. Eftersom kommunikationen har fungerat så pass bra som det har så har back-end gruppen aldrig behövt vänta särskillt länge innan de får de funktioner som de behöver ifrån front-end gruppen. \\
+Vi har arbetat i par, ett front-end och ett back-end par. Det har fungerat bra att arbeta med denna uppdelning. Kommunikationen mellan grupparna har fungerat mycket bra. Vid ett par tillfällen så har back-end gruppen behövt specifika funktioner från front-end gruppen för tester. Eftersom kommunikationen har fungerat så pass bra som den har så har back-end gruppen aldrig hamnat i en situation där de inte har kunna arbeta. \\
 \\
 
 \section{Slutgiltig design}
-Ett spel där man tävlar 1 mot N antal spelare i reaktionshastighet. Spelarna delar en gemensam spelplan som när spelet startar är tom. En kvadrat,cirkel eller triangel slumpas fram på spelplanen och det gäller att vara den första som klicka på figuren. Servern skickar vilken tid som figuren ska visas för spelarna, vanligtvis en delay på 3 sek. När en spelare sedan klickar på figuren tar man den aktuella tiden minus den givna tiden då figuren visades. Denna differens skickas sedan till servern som väljer den minsta tiden. Denna spelare får ett poäng.
+Ett spel där man tävlar 1 mot N antal spelare i reaktionshastighet. Spelarna delar en gemensam spelplan som är tom när spelet startar. En kvadrat, en cirkel eller en triangel slumpas fram på spelplanen och det gäller att vara den första som klickar på figuren. Servern skickar vilken tid som figuren ska visas för spelarna. Här har vi lagt en slumpad delay på  1-5 sekunder. När en spelare klickar på figuren registreras den aktuella tiden minus tiden då figuren visades. Denna differens skickas sedan till servern som väljer den minsta tiden som den vinnande. Spelaren som skickat den tiden får ett poäng.
 
 
 \end{document}
