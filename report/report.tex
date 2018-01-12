@@ -102,15 +102,22 @@ Vi kommer arbeta i par varav ena paret kommer fokusera på gränssnittet och and
 Vi försöker sätta upp veckomål, hur lång vi vill ha kommit efter varje vecka. Fram tom. den 30 november vill vi ha et färdigt gränssnitt samt en fungerande klient server kommunikation med de krav tidsstämpling osv. som vi anser viktiga i vår nuvarande bild av systemet. Förhoppningsvis har vi hunnit påbörja integreringen mellan gränssnitt och kommunikationen.
 
 \newpage
+
+\section{Slutgiltiga reflektioner}
+
+\subsection{Vad kunde vi ha gjort bättre?}
+Vi skulle kundat ha implementerat stöd för andra språk än engelska, då vi inte hade testat dessa bokstäver i inputen innan redovisningen. Så att programmet inte krashar.\\
+\\
+Vi borde ha implementerat stöd för om ett packet frösvinner, det skulle kunna varit återsändning alternativt TCP protocol istället för UDP.\\
+\\
+Vi skulle kunnat implementerat stöd för n-hörningar då vi redan har algoritmen för att bestämma om man klickat i n-hörningen eller inte.
+
+\subsection{Hur har arbetet fortlöpt?}
+Arbetet har fungerat bra, vi har arbetat i par, front-end och back-end.
+Det har varit bra kommunikation mellan båda paren, om back-end behöver något så fungerade kommunikationen till front-enden väldigt smidigt.
+
 \section{Slutgiltig design}
 Ett spel där man tävlar 1 mot N antal spelare i reaktionshastighet. Spelarna delar en gemensam spelplan som när spelet startar är tom. En kvadrat,cirkel eller triangel slumpas fram på spelplanen och det gäller att vara den första som klicka på figuren. Servern skickar vilken tid som figuren ska visas för spelarna, vanligtvis en delay på 3 sek. När en spelare sedan klickar på figuren tar man den aktuella tiden minus den givna tiden då figuren visades. Denna differens skickas sedan till servern som väljer den minsta tiden. Denna spelare får ett poäng.
-
-\section{Teknisk design}
-
-\section{Problem vi mötte och löste}
-
-\section{Problem vi har just nu}
-
 
 
 \end{document}
